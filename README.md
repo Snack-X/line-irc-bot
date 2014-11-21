@@ -2,8 +2,12 @@
 
 IRC <-> LINE
 
-Supports LINE's image (uploaded to own server, preview), and sticker
+Supports LINE's image (upload preview to own server OR get image from LINE server via external script), and sticker
 
 ## Dependency
 
-* line (`pip install line`)
+None. (Using modified [carpedm20's LINE](https://github.com/carpedm20/LINE).)
+
+## External script for LINE image
+
+Use `image.php`, or write your own script. And modify `config.py`.

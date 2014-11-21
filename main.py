@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from line import LineClient
+from client import LineClient
 from curve.ttypes import ContentType
 from threading import Thread
 from socket import socket, AF_INET, SOCK_STREAM
@@ -122,10 +122,17 @@ class LineRecvThread(Thread):
 					url = "http://dl.stickershop.line.naver.jp/products/%d/%d/%d/%s/PC/stickers/%s.png" % (ver / 1000000, ver / 1000, ver % 1000, pkgid, stkid)
 					msg = "[STICKER] %s" % url
 				elif message.contentType == ContentType.IMAGE:
-					with open("%s/%s.jpg" % (config.IMAGE_LOCAL_PATH, message.id), "w+") as file_:
-						file_.write(message.contentPreview)
-
-					msg = "[IMAGE] %s/%s.jpg" % (config.IMAGE_WEB_PATH, message.id)
+					if config.IMAGE_LOCAL_PREVIEW:
+						# upload image to local server
+						with open("%s/%s.jpg" % (config.IMAGE_LOCAL_PATH, message.id), "w+") as file_:
+							file_.write(message.contentPreview)
+						msg = "[IMAGE] %s/%s.jpg" % (config.IMAGE_LOCAL_WEB_PATH, message.id)
+					elif config.IMAGE_WEB_PREVIEW:
+						# image via line server
+						msg = "[IMAGE] " + (config.IMAGE_WEB_PATH % message.id)
+					else:
+						# no image
+						msg = "[IMAGE]";
 				elif message.contentType == ContentType.NONE:
 					msg = message.text
 				else:
