@@ -58,7 +58,7 @@ class IRCThread(Thread):
 		self.S.send("%s\r\n" % line)
 
 	def send_message(self, line):
-		self.send_raw_line("PRIVMSG %s :%s" % (config.IRC_CHAN, line))
+		self.send_raw_line("PRIVMSG %s :%s" % (config.IRC_CHAN, line.replace("\n", "")))
 
 	def on_welcome(self):
 		self.send_raw_line("JOIN %s" % config.IRC_CHAN)
