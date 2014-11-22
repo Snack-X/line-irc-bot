@@ -45,7 +45,7 @@ class IRCThread(Thread):
 					nick = user.group(1)
 					host = user.group(3)
 
-					ircmsg = re.match(":.*!.* PRIVMSG #.* :(.*)", line).group(1)
+					ircmsg = re.match(":.*!.* PRIVMSG #[^\x07\x2C\s]{0,200} :(.*)", line).group(1)
 
 					if nick in config.IRC_NO_PREFIX:
 						linemsg = ircmsg
